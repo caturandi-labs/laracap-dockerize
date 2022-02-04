@@ -11,6 +11,7 @@ Suitable for PHP development with Docker Container
 - Alpine Linux
 - Wkhtmltopdf/Wkhtmltoimage (QT Patched) => `/bin/wkhtmltopdf`
 - MariaDB 10.6
+- Scheduler /Queue Worker => Supervisord
 
 
 #### Utility container

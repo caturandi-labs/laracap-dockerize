@@ -2,6 +2,11 @@ FROM alpine:3.13
 
 LABEL maintainer="catur.andi.pamungkas@gmail.com"
 
+ENV USER=1000
+ENV GROUP=1000
+
+RUN adduser -g ${USER} -s /bin/sh -D ${GROUP}
+
 # Install dependencies for wkhtmltopdf
 RUN apk add --no-cache \
   libstdc++ \
@@ -69,6 +74,7 @@ RUN apk add --no-cache \
     procps  \ 
     nodejs npm \
     && ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm \
+    && ln -s /usr/bin/php8 /usr/bin/php \
     && addgroup -S php \
     && adduser -S -G php php \
     && rm -rf /var/cache/apk/* /etc/nginx/conf.d/*
@@ -81,11 +87,10 @@ ADD files/general/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD files/php7/etc/php7/php-fpm.conf /etc/php7/php-fpm.conf
 
 
-
 # Enable options supported by this version of PHP-FPM
 RUN sed '/decorate_workers_output/s/^; //g' /etc/php7/php-fpm.conf
 
-RUN mkdir -p /var/www/html/public
+RUN mkdir -p /var/www/html
 
 
 COPY supervisord/supervisord.conf /etc/supervisor/supervisord.conf
@@ -95,7 +100,6 @@ COPY supervisord/conf.d/*.conf /etc/supervisor/conf.d-available/
 COPY run.sh /usr/local/bin/run
 
 RUN chmod +x /usr/local/bin/run
-
 
 EXPOSE 80
 

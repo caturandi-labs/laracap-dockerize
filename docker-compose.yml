@@ -39,14 +39,16 @@ services:
       dockerfile: composer.dockerfile
     volumes:
       - ./src:/var/www/html
+    user: "1000:1000"
     working_dir: /var/www/html
   artisan:
     build:
       context: .
-      dockerfile: php.dockerfile
+      dockerfile: app-php8.dockerfile
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
+    user: "1000:1000"
     depends_on:
       - mysql
-    entrypoint: ['php8', '/var/www/html/artisan']
+    entrypoint: ['php', '/var/www/html/artisan']

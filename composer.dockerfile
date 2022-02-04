@@ -1,9 +1,9 @@
-FROM composer:2
+FROM composer
 
 LABEL maintainer="catur.andi.pamungkas@gmail.com"
 
-ENV COMPOSERUSER=nginx
-ENV COMPOSERGROUP=nginx
+ENV COMPOSERUSER=1000
+ENV COMPOSERGROUP=1000
 
 
 RUN adduser -g ${COMPOSERUSER} -s /bin/sh -D ${COMPOSERGROUP}
